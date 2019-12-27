@@ -2,9 +2,8 @@ var express = require('express');
 var randomstring = require("randomstring");
  
 var app = express();
-var mongoose = require('mongoose');
-var cors = require('cors')
-var fileupload = require('express-fileupload')
+var fileupload = require('express-fileupload');
+const resizeOptimizeImages = require('resize-optimize-images');
 app.use(fileupload(
    
 ))
@@ -19,19 +18,32 @@ exports.imageupload = function(req,res) {
         encriptcode = randomstring.generate(20);
         req.mv('./File/Images/'+encriptcode+filename,function(error){
             if(error){
-                console.log(error)
+       
                 
             }
             else{
-               var  result = encriptcode+filename;
-                console.log('fileuploaded')
+              
+                (async () => {
+                    // Set the options.
+                    const options = {
+                        images: ['./File/Images/'+encriptcode+filename],
+                        width: 600,
+                        quality: 85
+                    };
+                    
+                    // Run the module.
+                    await resizeOptimizeImages(options);
+                })();
                 
             }
+         
         })
+      
+
         return encriptcode+filename;;
     }
     else{
-        console.log('error')
+
         return ''
     }
    
