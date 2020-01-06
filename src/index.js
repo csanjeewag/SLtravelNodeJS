@@ -143,6 +143,6 @@ app.post("/updateservicepage",function(req,res){
 
 ///////////////////////servicepage//////////////////
 
-app.listen(8080,function(){
+app.listen(5001,function(){
     console.log("sever up")
 })
