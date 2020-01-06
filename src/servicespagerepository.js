@@ -12,15 +12,6 @@ app.use(fileupload(
 var exports = module.exports = {};
 
 
-mongoose.connect("mongodb+srv://csanjeewag:Chanaka*1102@cluster0-pms91.mongodb.net/poject?retryWrites=true",{
-    useNewUrlPaser:false
-}, function(error){
-    if(error){
-        console.log(error);
-    }else{
-        console.log('connection ok')
-    }
-})
 
 exports.addnewservicesplace = function(reqest,res) {
     let req_file = reqest.files;
@@ -120,7 +111,7 @@ exports.viewallservicesplaces = function(req,res) {
     let req_file = reqest.files;
     if(req_file){
        
-    // var image_urls = imagefile.imageuploads(req_file)
+     var image_urls = imagefile.imageuploads(req_file)
     var  imagename_p1= imagefile.imageupload(req_file.p1);
     var  imagename_p2= imagefile.imageupload(req_file.p2);
     var  imagename_p3= imagefile.imageupload(req_file.p3);
@@ -201,8 +192,18 @@ exports.viewallservicesplaces = function(req,res) {
 
   var data = new models(req_model);
    
-
-    console.log('fhgchg ')
+      if(image_urls){
+        req_model.image_url = image_urls
+      }
+      if(imagename_p1){
+        req_model.p1 = imagename_p1
+      } 
+       if(imagename_p2){
+        req_model.p2 = imagename_p2
+      }
+      if(imagename_p3){
+        req_model.p3 = imagename_p3
+      }
        
         models.findOneAndUpdate({ _id: req.id }, req_model, function(err, result) {
         if (err){

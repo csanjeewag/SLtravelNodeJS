@@ -13,19 +13,17 @@ var imagefile = require('./fileupload')
 app.use(express.static(__dirname + './../File'))
 app.use(fileupload())
 app.use(cors())
-app.use(bodypaser());
+//app.use(bodypaser());
+app.use(bodypaser.urlencoded({ extended: true }));
+app.use(bodypaser.json());
 
-mongoose.connect("mongodb+srv://csanjeewag:Chanaka*1102@cluster0-pms91.mongodb.net/poject?retryWrites=true",{
-    useNewUrlPaser:false
-}, function(error){
+mongoose.connect("mongodb+srv://csanjeewag:Chanaka*1102@cluster0-pms91.mongodb.net/poject?retryWrites=true",{useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, (error)=>{
     if(error){
         console.log(error);
     }else{
-        console.log('connection ok')
+        console.log('connection ok user')
     }
 })
-
-
 
 app.post("/addtravelpage",function(req,res){
 
@@ -63,7 +61,7 @@ app.get("/getalltravelpages",function(req,res){
 
 app.get("/gettravelpage/:id",function(req,res){
     
-    reqest={'_id':req.params.id}
+    reqest={'subtopic':req.params.id}
    return travelplacerepository.viewalltravelplaces(reqest,res)
    
    
@@ -132,7 +130,7 @@ app.get("/getallservicepage",function(req,res){
 
 app.get("/getservicepage/:id",function(req,res){
     
-    reqest={'_id':req.params.id}
+    reqest={'subtopic':req.params.id}
     return servicerepository.viewallservicesplaces(reqest,res)
     
 })
